@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from gtts import gTTS
 import os
 import requests
-from google import genai
+import google.generativeai as genai
 from dotenv import load_dotenv
 
 load_dotenv()
