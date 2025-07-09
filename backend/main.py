@@ -94,10 +94,9 @@ def generate_audio(text, filename):
         tts = gTTS(text=text, lang='en')
         audio_path = f"static/{filename}.mp3"
         tts.save(audio_path)
-        print(f"[INFO] Audio saved to {audio_path}")
         return f"/static/{filename}.mp3"
     except Exception as e:
-        print(f"[ERROR] Audio generation failed: {e}")
+        print(f"Error generating audio: {e}")
         return None
 
 # API route to generate explanation
