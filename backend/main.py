@@ -25,23 +25,14 @@ def generate_dynamic_explanation(topic, level):
         prompt = f"Provide a {level.lower()}-level explanation of {topic} in data science."
         response = requests.post(
             COHERE_API_URL,
-            json={
-                "model": "command",
-                "prompt": prompt,
-                "max_tokens": 300,
-                "temperature": 0.7
-            },
-            headers={
-                "Authorization": f"Bearer {COHERE_API_KEY}",
-                "Content-Type": "application/json"
-            }
+            json={"model": "command", "prompt": prompt, "max_tokens": 300, "temperature": 0.7},
+            headers={"Authorization": f"Bearer {COHERE_API_KEY}", "Content-Type": "application/json"},
         )
         response.raise_for_status()
-        text = response.json()["generations"][0]["text"].strip()
-        print(f"[INFO] Generated explanation for {topic} at {level} level.")
-        return text
+        return response.json()["generations"][0]["text"].strip()
+
     except Exception as e:
-        print(f"[ERROR] Cohere API failed: {e}")
+        print(f"Error with Cohere API: {e}")
         return f"Fallback explanation for {topic}."
 
 # Function to generate quiz questions using Gemini
@@ -110,7 +101,7 @@ def generate_explanation():
         return jsonify({"error": "Topic and level are required"}), 400
 
     explanation = generate_dynamic_explanation(topic, level)
-    audio_filename = f"{topic}_{level}".replace(" ", "_")
+    audio_filename = f"{topic}_{level}"
     audio_url = generate_audio(explanation, audio_filename)
 
     return jsonify({"text": explanation, "audio_url": audio_url})
