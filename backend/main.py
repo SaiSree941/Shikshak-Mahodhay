@@ -35,7 +35,8 @@ def generate_dynamic_explanation(topic, level):
         print(f"Error with Cohere API: {e}")
         return f"Fallback explanation for {topic}."
 
-# Function to generate quiz questions using Gemini
+
+# Function to generate quiz using Gemini API
 def generate_quiz_questions(topic):
     try:
         prompt = f"""
@@ -49,15 +50,15 @@ def generate_quiz_questions(topic):
         D) [Option 4]
         Answer: [Correct option letter]
         """
-        model = genai.GenerativeModel("gemini-pro")
-        response = model.generate_content(prompt)
-        print(f"[INFO] Generated quiz for topic {topic}")
+        response = genai_client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
         return parse_quiz_questions(response.text)
+
     except Exception as e:
-        print(f"[ERROR] Gemini API failed: {e}")
+        print(f"Error with Gemini API: {e}")
         return []
 
-# Parse the quiz text into structured questions
+
+# Function to parse quiz text into structured questions
 def parse_quiz_questions(text):
     questions = []
     lines = text.split("\n")
@@ -79,7 +80,8 @@ def parse_quiz_questions(text):
 
     return questions
 
-# Generate TTS audio
+
+# Function to generate audio explanation
 def generate_audio(text, filename):
     try:
         tts = gTTS(text=text, lang='en')
@@ -90,7 +92,8 @@ def generate_audio(text, filename):
         print(f"Error generating audio: {e}")
         return None
 
-# API route to generate explanation
+
+# API Route to generate explanation
 @app.route('/gen', methods=['POST'])
 def generate_explanation():
     data = request.json
