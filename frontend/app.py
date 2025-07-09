@@ -2,8 +2,8 @@ import streamlit as st
 import requests
 
 # Backend API URLs
-API_URL = "https://your-flask-backend.onrender.com/gen"
-QUIZ_URL = "https://your-flask-backend.onrender.com/quiz"
+API_URL = st.secrets["backend"]["api_url"]
+QUIZ_URL = st.secrets["backend"]["quiz_url"]
 
 # Streamlit app
 st.title("Shikshak Mahoday: AI Data Science Tutor")
