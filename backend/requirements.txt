@@ -2,4 +2,4 @@ Flask
 gTTS
 requests
 python-dotenv
-google-generativeai
+google-generativeai>=0.3.2
